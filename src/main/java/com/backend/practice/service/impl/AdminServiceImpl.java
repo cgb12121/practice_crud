@@ -1,5 +1,7 @@
 package com.backend.practice.service.impl;
 
+import com.backend.practice.api.controller.kafka.KafkaProducer;
+import com.backend.practice.api.controller.kafka.Topic;
 import com.backend.practice.service.AdminService;
 import com.backend.practice.model.dto.UserDto;
 import com.backend.practice.model.dto.request.UserRegisterRequest;
@@ -25,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserMapper userMapper;
 
-//    private final KafkaProducer kafkaProducer;
+    private final KafkaProducer kafkaProducer;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -37,6 +39,7 @@ public class AdminServiceImpl implements AdminService {
         }
 
         User user = new User();
+
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setAddress(request.getAddress());
@@ -50,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
         user.setPassword(encodedPassword);
 
         user = userRepository.save(user);
-//        kafkaProducer.sendMessage(Topic.USER_REGISTER_TOPIC, "User registered: " + user.getEmail());
+        kafkaProducer.sendMessage(Topic.USER_REGISTER_TOPIC, "User registered: " + user.getEmail());
 
         return userMapper.toDto(user);
     }
