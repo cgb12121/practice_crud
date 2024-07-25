@@ -15,7 +15,7 @@ import java.time.Instant;
 public class Product {
     @Id
     @Column(name = "product_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

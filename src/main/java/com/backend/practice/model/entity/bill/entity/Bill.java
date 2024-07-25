@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class Bill {
     @Id
     @Column(name = "bill_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

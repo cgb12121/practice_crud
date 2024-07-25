@@ -11,7 +11,7 @@ import lombok.Setter;
 public class PaymentMethod {
     @Id
     @Column(name = "method_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "method_name", nullable = false, length = 50)

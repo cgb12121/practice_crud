@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Category {
     @Id
     @Column(name = "category_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "category_name", nullable = false, length = 50)

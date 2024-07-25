@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Brand {
     @Id
     @Column(name = "brand_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "brand_name", nullable = false, length = 50)

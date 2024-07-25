@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Size {
     @Id
     @Column(name = "size_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "size_name", nullable = false, length = 50)
