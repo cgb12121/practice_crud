@@ -61,15 +61,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
-                .rememberMe(remember -> remember
-                        .rememberMeServices(rememberMeServices(userService.userDetailsService()))
-                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .rememberMe(remember -> remember.rememberMeServices(rememberMeServices(userService.userDetailsService())))
                 .exceptionHandling(e -> e.accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.CONFLICT))
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -99,8 +97,9 @@ public class SecurityConfig {
 
     @Bean
     public RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
-        TokenBasedRememberMeServices rememberMe = new TokenBasedRememberMeServices("springRocks", userDetailsService);
+        TokenBasedRememberMeServices rememberMe = new TokenBasedRememberMeServices("hello-world", userDetailsService);
         rememberMe.setMatchingAlgorithm(TokenBasedRememberMeServices.RememberMeTokenAlgorithm.SHA256);
+        rememberMe.setAlwaysRemember(true);
         return rememberMe;
     }
 
