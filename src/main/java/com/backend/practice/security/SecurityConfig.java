@@ -59,16 +59,22 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )
+                .authenticationProvider(authenticationProvider())
                 .rememberMe(remember -> remember
                         .rememberMeServices(rememberMeServices(userService.userDetailsService()))
                 )
-                .authenticationProvider(authenticationProvider())
                 .exceptionHandling(e -> e.accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.CONFLICT))
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .formLogin(login -> login
+                        .loginPage("/api/login").permitAll()
+                        .loginProcessingUrl("/auth/login")
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout").permitAll()
