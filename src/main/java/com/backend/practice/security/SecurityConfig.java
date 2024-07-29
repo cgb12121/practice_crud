@@ -29,6 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -74,12 +75,24 @@ public class SecurityConfig {
                 )
                 .formLogin(login -> login
                         .loginPage("/api/login").permitAll()
+                        .passwordParameter("password")
+                        .usernameParameter("username")
+                        .failureForwardUrl("/login?error")
+                        .failureUrl("/login?error=true")
                         .loginProcessingUrl("/auth/login")
+                        .defaultSuccessUrl("/index.html")
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout").permitAll()
+                        .invalidateHttpSession(true)
                         .addLogoutHandler(logoutHandler)
+                        .logoutSuccessUrl("/index.html")
+                        .defaultLogoutSuccessHandlerFor(
+                                new HttpStatusReturningLogoutSuccessHandler(),
+                                new AntPathRequestMatcher("/api/**"))
                         .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                 )
                 .build();
     }
