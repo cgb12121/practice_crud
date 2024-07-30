@@ -1,4 +1,4 @@
-package com.backend.practice.api.controller.kafka;
+package com.backend.practice.config.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

@@ -1,12 +1,12 @@
 package com.backend.practice.service.impl;
 
-import com.backend.practice.api.controller.kafka.KafkaProducer;
-import com.backend.practice.api.controller.kafka.Topic;
-import com.backend.practice.service.AdminService;
+import com.backend.practice.config.kafka.KafkaProducer;
+import com.backend.practice.config.kafka.Topic;
 import com.backend.practice.model.dto.UserDto;
 import com.backend.practice.model.dto.request.UserRegisterRequest;
 import com.backend.practice.model.entity.user.User;
 import com.backend.practice.repository.user.UserRepository;
+import com.backend.practice.service.AdminService;
 import com.backend.practice.util.exception.UserAlreadyExistException;
 import com.backend.practice.util.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;

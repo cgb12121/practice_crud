@@ -11,17 +11,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+
+import java.time.LocalDate;
 
 @RestControllerAdvice
-public class ExceptionHandlerAdvice {
+public class ExceptionHandlerAdvice extends ExceptionHandlerExceptionResolver {
 
     @ExceptionHandler(UserAlreadyExistException.class)
     @Operation(summary = "Handle UserAlreadyExistException")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "409", description = "User already exists")
     })
-    public ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExistException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<Object> handleUserAlreadyExistException(UserAlreadyExistException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(LocalDate.now(), ex.getMessage(), request.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -29,8 +35,10 @@ public class ExceptionHandlerAdvice {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(LocalDate.now(), ex.getMessage(), request.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(WrongPasswordException.class)
@@ -38,8 +46,10 @@ public class ExceptionHandlerAdvice {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "401", description = "Wrong password")
     })
-    public ResponseEntity<String> handleWrongPasswordException(WrongPasswordException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Object> handleWrongPasswordException(WrongPasswordException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(LocalDate.now(), ex.getMessage(), request.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(TooManyAttemptsException.class)
@@ -47,8 +57,10 @@ public class ExceptionHandlerAdvice {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "401", description = "Logged in fail many times")
     })
-    public ResponseEntity<String> handleWTooManyAttemptsException(TooManyAttemptsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Object> handleWTooManyAttemptsException(TooManyAttemptsException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(LocalDate.now(), ex.getMessage(), request.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
     }
 
 }

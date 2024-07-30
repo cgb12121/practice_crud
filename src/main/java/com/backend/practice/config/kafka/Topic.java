@@ -1,4 +1,4 @@
-package com.backend.practice.api.controller.kafka;
+package com.backend.practice.config.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.kafka.config.TopicBuilder;

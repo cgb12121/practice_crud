@@ -1,4 +1,4 @@
-package com.backend.practice.api.controller.kafka;
+package com.backend.practice.config.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
