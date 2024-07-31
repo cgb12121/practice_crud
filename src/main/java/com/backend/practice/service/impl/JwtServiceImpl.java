@@ -17,7 +17,8 @@ import java.util.Map;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    private static final String SECRET_KEY = "hellomybeautifulworld";
+    /* hellomybeautifulworld 😄 */
+    private static final String SECRET_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcyMjMzNDU1NSwiaWF0IjoxNzIyMzM0NTU1fQ.pJTCl99uX0nQDTdA9O-1R5qyw-czCyGYlcxo9khbnzM";
 
     private static final int ONE_DAY = 86400000;
 

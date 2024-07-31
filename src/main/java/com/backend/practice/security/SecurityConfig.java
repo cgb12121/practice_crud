@@ -29,6 +29,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -62,14 +64,17 @@ public class SecurityConfig {
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .rememberMe(remember -> remember.rememberMeServices(rememberMeServices(userService.userDetailsService())))
                 .exceptionHandling(e -> e.accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.CONFLICT))
+                )
+                .rememberMe(remember -> remember
+                        .rememberMeServices(rememberMeServices(userService.userDetailsService()))
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                .requestCache(requestCache -> requestCache
+                        .requestCache(customRequestCache())
                 )
                 .formLogin(login -> login
                         .loginPage("/api/login").permitAll()
@@ -130,6 +135,12 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+    @Bean
+    public RequestCache customRequestCache() {
+        return new HttpSessionRequestCache();
+    }
+
 
     private static final String[] SWAGGER_WHITELIST = {
             "/v3/api-docs/**",
