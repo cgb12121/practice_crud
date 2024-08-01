@@ -53,21 +53,21 @@ public class User implements UserDetails {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
-//    @Timestamp
-//    @Column(name = "last_updated", columnDefinition = "null")
-//    private LocalDateTime lastUpdated;
-//
-//    @Column(name = "is_account_non_expired", columnDefinition = "1")
-//    private boolean isAccountNonExpired;
-//
-//    @Column(name = "is_account_non_locked", columnDefinition = "1")
-//    private boolean isAccountNonLocked;
-//
-//    @Column(name = "is_credentials_non_expired", columnDefinition = "1")
-//    private boolean isCredentialsNonExpired;
-//
-//    @Column(name = "is_enabled", columnDefinition = "1")
-//    private boolean isEnabled;
+    @Timestamp
+    @Column(name = "last_updated", columnDefinition = "null")
+    private LocalDateTime lastUpdated;
+
+    @Column(name = "is_account_non_expired", columnDefinition = "1")
+    private boolean isAccountNonExpired;
+
+    @Column(name = "is_account_non_locked", columnDefinition = "1")
+    private boolean isAccountNonLocked;
+
+    @Column(name = "is_credentials_non_expired", columnDefinition = "1")
+    private boolean isCredentialsNonExpired;
+
+    @Column(name = "is_enabled", columnDefinition = "1")
+    private boolean isEnabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

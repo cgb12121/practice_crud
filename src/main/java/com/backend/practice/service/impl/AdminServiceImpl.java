@@ -38,19 +38,17 @@ public class AdminServiceImpl implements AdminService {
             throw new UserAlreadyExistException("Email already used: " + request.getEmail());
         }
 
-        User user = new User();
-
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setAddress(request.getAddress());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setEmail(request.getEmail());
-        user.setRole(STAFF);
-        user.setLoginAttempts(0);
-        user.setLastLogin(LocalDateTime.now());
-
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-        user.setPassword(encodedPassword);
+        User user = User.builder()
+                    .firstName(request.getFirstName())
+                    .lastName(request.getLastName())
+                    .address(request.getAddress())
+                    .phoneNumber(request.getPhoneNumber())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(STAFF)
+                    .loginAttempts(0)
+                    .lastLogin(LocalDateTime.now())
+                    .build();
 
         user = userRepository.save(user);
         kafkaProducer.sendMessage(Topic.USER_REGISTER_TOPIC, "User registered: " + user.getEmail());

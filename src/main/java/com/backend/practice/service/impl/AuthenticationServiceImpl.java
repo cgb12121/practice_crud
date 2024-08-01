@@ -52,19 +52,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signUp(UserRegisterRequest request) {
-        User user = new User();
-
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setAddress(request.getAddress());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setEmail(request.getEmail());
-        user.setRole(USER);
-        user.setLoginAttempts(0);
-        user.setLastLogin(LocalDateTime.now());
-
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-        user.setPassword(encodedPassword);
+        User user = User.builder()
+                    .firstName(request.getFirstName())
+                    .lastName(request.getLastName())
+                    .address(request.getAddress())
+                    .phoneNumber(request.getPhoneNumber())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(USER)
+                    .loginAttempts(0)
+                    .lastLogin(LocalDateTime.now())
+                    .build();
 
         userRepository.save(user);
 

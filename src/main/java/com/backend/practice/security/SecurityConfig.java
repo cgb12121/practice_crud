@@ -141,7 +141,6 @@ public class SecurityConfig {
         return new HttpSessionRequestCache();
     }
 
-
     private static final String[] SWAGGER_WHITELIST = {
             "/v3/api-docs/**",
             "/swagger-resources/**",
