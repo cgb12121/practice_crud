@@ -72,7 +72,7 @@ public class UserController {
             @ApiResponse(responseCode = "204", description = "User account deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<?> deleteUser(
+    public ResponseEntity<Void> deleteUser(
             @Parameter(description = "User delete account request data", required = true)
             @RequestBody UserDeleteAccountRequest request) {
         userService.deleteUser(request);
@@ -86,7 +86,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Wrong password"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<?> changePassword(
+    public ResponseEntity<String> changePassword(
             @Parameter(description = "Change password request data", required = true)
             @RequestBody ChangePasswordRequest request) {
         String message = userService.changePassword(request);
@@ -99,7 +99,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User information updated successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<?> updateUserInfo(
+    public ResponseEntity<UserDto> updateUserInfo(
             @Parameter(description = "User ID", example = "1", required = true)
             @PathVariable Integer id,
             @Parameter(description = "Updated user information", required = true)
